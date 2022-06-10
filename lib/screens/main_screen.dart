@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:security_app/widgets/tic_tac_toe_board.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -66,9 +67,12 @@ class MainScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text("Waiting for the database..."));
             }
-            final userData = snapshot.data!.data()!;
-            return Center(
-                child: Text("Welcome to Nowhere, ${userData['username']}."));
+            //final userData = snapshot.data!.data()!;
+
+            //appBarText = "Welcome to Nowhere, ${userData['username']}.";
+            return const Center(
+              child: TicTacToeBoard(),
+            );
           }),
     );
   }
