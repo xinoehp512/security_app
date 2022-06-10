@@ -10,32 +10,43 @@ class TicTacToeBoard extends StatefulWidget {
 
 class _TicTacToeBoardState extends State<TicTacToeBoard> {
   final _ticTacToe = TicTacToe();
-  var gameOver = false;
-  var winner = 0;
+  var _playerMovesX = true;
   void makeMove(int x, int y) {
     setState(() {
-      _ticTacToe.playerMove(x, y);
-      _ticTacToe.aiMove();
+      _ticTacToe.playerMove(x, y, _playerMovesX ? 1 : -1);
     });
+    if (checkForVictory()) {
+      return;
+    }
+    setState(() {
+      _ticTacToe.aiMove(_playerMovesX ? -1 : 1);
+    });
+    checkForVictory();
+  }
+
+  bool checkForVictory() {
     var victory = _ticTacToe.checkForVictory();
     if (victory != null) {
       setState(() {
-        winner = _ticTacToe.markVictory(victory);
-        gameOver = true;
+        _ticTacToe.markVictory(victory!);
       });
+      return true;
     }
-    if (_ticTacToe.availableMoves.isEmpty) {
-      gameOver = true;
-    }
+    return false;
   }
 
   void reset() {
-    gameOver = false;
-    winner = 0;
-
     setState(() {
       _ticTacToe.clearBoard();
+      if (!_playerMovesX) {
+        _ticTacToe.aiMove(1);
+      }
     });
+  }
+
+  void switchPlayer() {
+    _playerMovesX = !_playerMovesX;
+    reset();
   }
 
   @override
@@ -57,7 +68,16 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
             itemCount: 9,
           ),
         ),
-        ElevatedButton(onPressed: reset, child: const Text("Start Over")),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(onPressed: reset, child: const Text("Start Over")),
+            SizedBox(width: 10),
+            ElevatedButton(
+                onPressed: switchPlayer, child: const Text("Switch Player")),
+          ],
+        ),
+        Text("You are playing ${_playerMovesX ? "X" : "O"}"),
       ],
     );
   }

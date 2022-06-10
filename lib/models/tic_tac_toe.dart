@@ -48,7 +48,8 @@ class TicTacToe {
       [2, 0]
     ],
   ];
-  var _playerMovesX = true;
+  var gameOver = false;
+  var winner = 0;
   List get availableMoves {
     var moves = [];
     for (var i = 0; i < 3; i++) {
@@ -73,6 +74,8 @@ class TicTacToe {
   }
 
   void clearBoard() {
+    gameOver = false;
+    winner = 0;
     for (var i = 0; i < 3; i++) {
       for (var j = 0; j < 3; j++) {
         setCell(j, i, 0);
@@ -87,22 +90,19 @@ class TicTacToe {
     _board[y][x] *= 2;
   }
 
-  void switchXPlayer() {
-    _playerMovesX = !_playerMovesX;
+  void playerMove(int x, int y, int val) {
+    setCell(x, y, val);
   }
 
-  void playerMove(int x, int y) {
-    setCell(x, y, _playerMovesX ? 1 : -1);
-  }
-
-  void aiMove() {
+  void aiMove(int val) {
     var random = Random();
     if (availableMoves.isEmpty) {
+      gameOver = true;
       return;
     }
     var moveIndex = random.nextInt(availableMoves.length);
     var move = availableMoves[moveIndex];
-    setCell(move[0], move[1], _playerMovesX ? -1 : 1);
+    setCell(move[0], move[1], val);
   }
 
   List<List<int>>? checkForVictory() {
@@ -118,15 +118,16 @@ class TicTacToe {
       if (match == 0) {
         continue;
       }
+      gameOver = true;
+      winner = match;
       return tictactoe;
     }
     return null;
   }
 
-  int markVictory(List<List<int>> cells) {
+  void markVictory(List<List<int>> cells) {
     for (var tile in cells) {
       markCell(tile[0], tile[1]);
     }
-    return getCell(cells[0][0], cells[0][1]);
   }
 }
