@@ -11,6 +11,7 @@ class TicTacToeBoard extends StatefulWidget {
 class _TicTacToeBoardState extends State<TicTacToeBoard> {
   final _ticTacToe = TicTacToe();
   var _playerMovesX = true;
+  var difficulty = false;
   void makeMove(int x, int y) {
     setState(() {
       _ticTacToe.playerMove(x, y, _playerMovesX ? 1 : -1);
@@ -19,7 +20,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
       return;
     }
     setState(() {
-      _ticTacToe.aiMove(_playerMovesX ? -1 : 1);
+      _ticTacToe.aiMove(_playerMovesX ? -1 : 1, difficulty);
     });
     checkForVictory();
   }
@@ -28,7 +29,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
     var victory = _ticTacToe.checkForVictory();
     if (victory != null) {
       setState(() {
-        _ticTacToe.markVictory(victory!);
+        _ticTacToe.markVictory(victory);
       });
       return true;
     }
@@ -39,13 +40,18 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
     setState(() {
       _ticTacToe.clearBoard();
       if (!_playerMovesX) {
-        _ticTacToe.aiMove(1);
+        _ticTacToe.aiMove(1, difficulty);
       }
     });
   }
 
   void switchPlayer() {
     _playerMovesX = !_playerMovesX;
+    reset();
+  }
+
+  void switchDifficulty() {
+    difficulty = !difficulty;
     reset();
   }
 
@@ -72,9 +78,13 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(onPressed: reset, child: const Text("Start Over")),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             ElevatedButton(
                 onPressed: switchPlayer, child: const Text("Switch Player")),
+            const SizedBox(width: 10),
+            ElevatedButton(
+                onPressed: switchDifficulty,
+                child: Text("Difficulty: ${difficulty ? "Hard" : "Easy"}")),
           ],
         ),
         Text("You are playing ${_playerMovesX ? "X" : "O"}"),
