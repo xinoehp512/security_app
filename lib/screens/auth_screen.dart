@@ -33,7 +33,8 @@ class _AuthScreenState extends State<AuthScreen> {
             .set({'username': username, 'email': email});
       }
     } on PlatformException catch (e) {
-      print(e.message);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Login Failed ${e.message!}")));
     }
   }
 

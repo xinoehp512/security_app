@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = "/settings";
+
+  const SettingsScreen({Key? key}) : super(key: key);
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
@@ -28,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      appBar: AppBar(title: Text("Settings")),
+      appBar: AppBar(title: const Text("Settings")),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection("users")
@@ -36,21 +38,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             final userData = snapshot.data!.data()!;
             _username = userData['username'];
             return Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
                       initialValue: userData['username'],
-                      decoration: InputDecoration(labelText: "Username"),
+                      decoration: const InputDecoration(labelText: "Username"),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Enter a username";
@@ -63,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     ElevatedButton(
                         onPressed: submitUsername,
-                        child: Text("Update Username")),
+                        child: const Text("Update Username")),
                   ],
                 ),
               ),

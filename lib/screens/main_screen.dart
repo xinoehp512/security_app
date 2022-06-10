@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:security_app/widgets/tic_tac_toe_board.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -46,6 +45,19 @@ class MainScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              DropdownMenuItem(
+                value: "tic-tac-toe",
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.border_all,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 5),
+                    Text("Tic Tac Toe"),
+                  ],
+                ),
+              ),
             ],
             onChanged: (itemID) {
               if (itemID == "logout") {
@@ -53,6 +65,9 @@ class MainScreen extends StatelessWidget {
               }
               if (itemID == "settings") {
                 Navigator.of(context).pushNamed("/settings");
+              }
+              if (itemID == "tic-tac-toe") {
+                Navigator.of(context).pushNamed("/tic-tac-toe");
               }
             },
           )
@@ -65,13 +80,11 @@ class MainScreen extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Text("Waiting for the database..."));
+              return const Center(child: Text("Waiting for the database..."));
             }
-            //final userData = snapshot.data!.data()!;
-
-            //appBarText = "Welcome to Nowhere, ${userData['username']}.";
-            return const Center(
-              child: TicTacToeBoard(),
+            final userData = snapshot.data!.data()!;
+            return Center(
+              child: Text("Welcome to Nowhere, ${userData['username']}."),
             );
           }),
     );

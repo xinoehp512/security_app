@@ -5,6 +5,7 @@ import 'package:security_app/screens/auth_screen.dart';
 import 'package:security_app/screens/main_screen.dart';
 import 'package:security_app/screens/settings_screen.dart';
 import 'package:security_app/screens/splash_screen.dart';
+import 'package:security_app/screens/tic_tac_toe_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -34,17 +35,18 @@ class MyApp extends StatelessWidget {
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SplashScreen();
+                  return const SplashScreen();
                 }
                 if (snapshot.hasData) {
-                  return MainScreen();
+                  return const MainScreen();
                 }
-                return AuthScreen();
+                return const AuthScreen();
               },
             );
           }),
       routes: {
-        SettingsScreen.routeName: (context) => SettingsScreen(),
+        SettingsScreen.routeName: (context) => const SettingsScreen(),
+        TicTacToeScreen.routeName: (context) => const TicTacToeScreen(),
       },
     );
   }

@@ -9,7 +9,7 @@ class TicTacToeBoard extends StatefulWidget {
 }
 
 class _TicTacToeBoardState extends State<TicTacToeBoard> {
-  final _ticTacToe = new TicTacToe();
+  final _ticTacToe = TicTacToe();
   var gameOver = false;
   var winner = 0;
   void makeMove(int x, int y) {
@@ -45,7 +45,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
         Container(
           width: 200,
           height: 200,
-          margin: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(20),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
@@ -57,7 +57,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
             itemCount: 9,
           ),
         ),
-        ElevatedButton(onPressed: reset, child: Text("Start Over")),
+        ElevatedButton(onPressed: reset, child: const Text("Start Over")),
       ],
     );
   }
@@ -68,7 +68,8 @@ class TicTacToeCell extends StatelessWidget {
   final int y;
   final int v;
   final Function(int x, int y) makeMove;
-  TicTacToeCell(this.x, this.y, this.v, this.makeMove);
+  const TicTacToeCell(this.x, this.y, this.v, this.makeMove, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AuthForm extends StatefulWidget {
   final Future Function(
       String email, String password, String username, bool isLogin) onSubmit;
-  AuthForm(this.onSubmit);
+  const AuthForm(this.onSubmit, {Key? key}) : super(key: key);
   @override
   State<AuthForm> createState() => _AuthFormState();
 }
@@ -44,7 +44,7 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Center(
       child: Card(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -53,12 +53,13 @@ class _AuthFormState extends State<AuthForm> {
               child: Column(
                 children: [
                   TextFormField(
-                    key: ValueKey('email'),
+                    key: const ValueKey('email'),
                     decoration: const InputDecoration(labelText: 'E-mail'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Enter an Email";
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _email = value!;
@@ -66,31 +67,33 @@ class _AuthFormState extends State<AuthForm> {
                   ),
                   if (!_isLogin)
                     TextFormField(
-                      key: ValueKey('username'),
+                      key: const ValueKey('username'),
                       decoration: const InputDecoration(labelText: 'Username'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Enter a username";
                         }
+                        return null;
                       },
                       onSaved: (value) {
                         _username = value!;
                       },
                     ),
                   TextFormField(
-                    key: ValueKey('password'),
+                    key: const ValueKey('password'),
                     decoration: const InputDecoration(labelText: 'Password'),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Enter a Password";
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       _password = value!;
                     },
                   ),
                   _isLoading
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : ElevatedButton(
                           onPressed: _attemptLogin,
                           child: _isLogin
