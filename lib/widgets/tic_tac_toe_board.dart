@@ -70,7 +70,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
               crossAxisSpacing: 10,
             ),
             itemBuilder: (ctx, i) => TicTacToeCell(i % 3, (i / 3).floor(),
-                _ticTacToe.getCell(i % 3, (i / 3).floor()), makeMove),
+                _ticTacToe.getCell(i % 3, (i / 3).floor()), makeMove, 5),
             itemCount: 9,
           ),
         ),
@@ -97,29 +97,46 @@ class TicTacToeCell extends StatelessWidget {
   final int x;
   final int y;
   final int v;
-  final Function(int x, int y) makeMove;
-  const TicTacToeCell(this.x, this.y, this.v, this.makeMove, {Key? key})
+  final double rounding;
+  final Widget? child;
+  final Function(int x, int y)? makeMove;
+  const TicTacToeCell(this.x, this.y, this.v, this.makeMove, this.rounding,
+      {Key? key, this.child})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: v == 0
-          ? () {
-              makeMove(x, y);
-            }
-          : null,
+      onTap: makeMove == null
+          ? null
+          : v == 0
+              ? () {
+                  makeMove!(x, y);
+                }
+              : null,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(rounding),
           color: v.abs() <= 1 ? Colors.blueGrey[100] : Colors.green,
         ),
-        child: v == 0
-            ? null
-            : Icon(
-                v > 0 ? Icons.close : Icons.circle_outlined,
-                size: 40,
-              ),
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              if (child != null) child!,
+              if (v != 0)
+                Icon(
+                  v > 0 ? Icons.close : Icons.circle_outlined,
+                ),
+              if (v == 0)
+                Container(
+                  width: 0,
+                  height: 0,
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

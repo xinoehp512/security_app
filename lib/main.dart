@@ -6,6 +6,7 @@ import 'package:security_app/screens/main_screen.dart';
 import 'package:security_app/screens/settings_screen.dart';
 import 'package:security_app/screens/splash_screen.dart';
 import 'package:security_app/screens/tic_tac_toe_screen.dart';
+import 'package:security_app/screens/ultimate_tic_tac_toe_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,8 @@ class MyApp extends StatelessWidget {
       routes: {
         SettingsScreen.routeName: (context) => const SettingsScreen(),
         TicTacToeScreen.routeName: (context) => const TicTacToeScreen(),
+        UltimateTicTacToeScreen.routeName: (context) =>
+            const UltimateTicTacToeScreen(),
       },
     );
   }

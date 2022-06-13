@@ -50,11 +50,24 @@ class MainScreen extends StatelessWidget {
                 child: Row(
                   children: const [
                     Icon(
-                      Icons.border_all,
+                      Icons.grid_3x3,
                       color: Colors.black,
                     ),
                     SizedBox(width: 5),
                     Text("Tic Tac Toe"),
+                  ],
+                ),
+              ),
+              DropdownMenuItem(
+                value: "ultimate-tic-tac-toe",
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.grid_4x4,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 5),
+                    Text("Ultimate Tic Tac Toe"),
                   ],
                 ),
               ),
@@ -68,6 +81,9 @@ class MainScreen extends StatelessWidget {
               }
               if (itemID == "tic-tac-toe") {
                 Navigator.of(context).pushNamed("/tic-tac-toe");
+              }
+              if (itemID == "ultimate-tic-tac-toe") {
+                Navigator.of(context).pushNamed("/ultimate-tic-tac-toe");
               }
             },
           )

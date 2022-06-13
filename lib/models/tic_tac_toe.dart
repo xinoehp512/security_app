@@ -196,6 +196,9 @@ class TicTacToe {
       winner = match;
       return tictactoe;
     }
+    if (availableMoves.isEmpty) {
+      gameOver = true;
+    }
     return null;
   }
 
